@@ -33,7 +33,7 @@ int main(void) {
     // declare game state
     GameState state = {
         .ball.position = (Vector2){ 800/2, 600/2 },
-        .ball.velocity = (Vector2){ 200, 150 }, // speed, direction 
+        .ball.velocity = (Vector2){ 200.0f, 150.0f }, // speed, direction 
         .ball.radius = 5,
 
         .leftPaddle.position = (Vector2){ 5, 600/2 },
@@ -49,6 +49,18 @@ int main(void) {
         .score = { 0, 0 }
     };
 
+    while(!WindowShouldClose()) {
+        BeginDrawing();
+            ClearBackground(RAYWHITE);
+            DrawText("Test!", 190, 200, 20, LIGHTGRAY);
 
+
+        EndDrawing();
+
+    }
+
+    CloseWindow();
+
+    return 0;
 
 }
