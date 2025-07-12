@@ -38,12 +38,12 @@ int main(void) {
 
         .leftPaddle.position = (Vector2){ 5, 600/2 },
         .leftPaddle.width = 10,
-        .leftPaddle.height = 10,
+        .leftPaddle.height = 50,
         .leftPaddle.speed = 10,
 
         .rightPaddle.position = (Vector2){ 795, 600/2 },
         .rightPaddle.width = 10,
-        .rightPaddle.height = 10,
+        .rightPaddle.height = 50,
         .rightPaddle.speed = 10,
 
         .score = { 0, 0 }
@@ -52,8 +52,36 @@ int main(void) {
     while(!WindowShouldClose()) {
         BeginDrawing();
             ClearBackground(RAYWHITE);
-            DrawText("Test!", 190, 200, 20, LIGHTGRAY);
 
+            DrawCircleV(state.ball.position, state.ball.radius, GREEN);
+
+            DrawRectangleV(
+                (Vector2){
+                    state.leftPaddle.position.x,
+                    state.leftPaddle.position.y - state.leftPaddle.height / 2
+                },
+
+                (Vector2){
+                    state.leftPaddle.width, state.leftPaddle.height
+                },
+                GREEN
+            );
+
+            DrawRectangleV(
+                (Vector2){
+                    state.rightPaddle.position.x - state.rightPaddle.width,
+                    state.rightPaddle.position.y - state.rightPaddle.height / 2
+                },
+
+                (Vector2){
+                    state.leftPaddle.width, state.leftPaddle.height
+                },
+                GREEN
+            );
+
+
+            DrawText(TextFormat("%i", state.score.player1Score), 350, 20, 20, GREEN);
+            DrawText(TextFormat("%i", state.score.player2Score), 450, 20, 20, GREEN);
 
         EndDrawing();
 
