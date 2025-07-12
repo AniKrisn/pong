@@ -1,6 +1,6 @@
 CC=gcc
-CFLAGS=
-LDFLAGS=-lraylib -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
+CFLAGS=-I/opt/homebrew/include
+LDFLAGS=-L/opt/homebrew/lib -lraylib -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 
 SRC=main.c
 OUT=pong
