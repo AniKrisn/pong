@@ -53,14 +53,12 @@ int main(void) {
     };
 
     while(!WindowShouldClose()) {
-        // UPDATE
-        // ----------------------
         float dt = GetFrameTime(); // time (sec) since last frame
         
         // movement
         // note: speed (pix/sec) * dt = pixel delta
-        if (IsKeyDown(KEY_W)) state.leftPaddle.position.y -= state.leftPaddle.speed * dt * 75;
-        if (IsKeyDown(KEY_S)) state.leftPaddle.position.y += state.leftPaddle.speed * dt * 75;
+        if (IsKeyDown(KEY_W)) state.leftPaddle.position.y -= state.leftPaddle.speed * dt * 75.0f;
+        if (IsKeyDown(KEY_S)) state.leftPaddle.position.y += state.leftPaddle.speed * dt * 75.0f;
         
         // clamp paddle
         float halfH = state.leftPaddle.height * 0.5f;
@@ -71,12 +69,11 @@ int main(void) {
         state.ball.position.y += state.ball.velocity.y * dt;
 
         // window bounce
-        float scaleFactor = 1.2;
+        float scaleFactor = 1.2f;
         if (state.ball.position.x > 800) state.ball.velocity.x *= -1 * scaleFactor;
         if (state.ball.position.y > 600) state.ball.velocity.y *= -1 * scaleFactor;
         if (state.ball.position.x < 0) state.ball.velocity.x *= -1 * scaleFactor;
         if (state.ball.position.y < 0) state.ball.velocity.y *= -1 * scaleFactor;
-
 
         BeginDrawing();
             ClearBackground(GRAY);
