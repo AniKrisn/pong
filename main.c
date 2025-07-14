@@ -66,8 +66,17 @@ int main(void) {
         float halfH = state.leftPaddle.height * 0.5f;
         state.leftPaddle.position.y = fminf(fmaxf(state.leftPaddle.position.y, 0 + halfH), 600.0f - halfH);
         
+        // ball movement
         state.ball.position.x += state.ball.velocity.x * dt;
         state.ball.position.y += state.ball.velocity.y * dt;
+
+        // window bounce
+        float scaleFactor = 1.2;
+        if (state.ball.position.x > 800) state.ball.velocity.x *= -1 * scaleFactor;
+        if (state.ball.position.y > 600) state.ball.velocity.y *= -1 * scaleFactor;
+        if (state.ball.position.x < 0) state.ball.velocity.x *= -1 * scaleFactor;
+        if (state.ball.position.y < 0) state.ball.velocity.y *= -1 * scaleFactor;
+
 
         BeginDrawing();
             ClearBackground(GRAY);
