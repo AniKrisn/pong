@@ -1,5 +1,7 @@
 #include "raylib.h"
 #include <math.h>
+#include <stdlib.h>
+#include <time.h>
 
 typedef struct {
     Vector2 position;
@@ -63,8 +65,9 @@ int main(void) {
         // clamp paddle
         float halfH = state.leftPaddle.height * 0.5f;
         state.leftPaddle.position.y = fminf(fmaxf(state.leftPaddle.position.y, 0 + halfH), 600.0f - halfH);
-
-
+        
+        state.ball.position.x += state.ball.velocity.x * dt;
+        state.ball.position.y += state.ball.velocity.y * dt;
 
         BeginDrawing();
             ClearBackground(GRAY);
