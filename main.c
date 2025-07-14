@@ -50,10 +50,22 @@ int main(void) {
     };
 
     while(!WindowShouldClose()) {
-        BeginDrawing();
-            ClearBackground(RAYWHITE);
+        // UPDATE
+        // ----------------------
+        float dt = GetFrameTime(); // time (sec) since last frame
+        
+        // movement
+        if (IsKeyDown(KEY_W)) state.leftPaddle.position.y -= state.leftPaddle.speed * dt * 20; // note: speed (pix/sec) * dt = pixel delta
+        if (IsKeyDown(KEY_S)) state.leftPaddle.position.y += state.leftPaddle.speed * dt * 20;
 
-            DrawCircleV(state.ball.position, state.ball.radius, GREEN);
+
+
+
+
+        BeginDrawing();
+            ClearBackground(GRAY);
+
+            DrawCircleV(state.ball.position, state.ball.radius, GREEN); 
 
             DrawRectangleV(
                 (Vector2){
