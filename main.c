@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include <math.h>
 
 typedef struct {
     Vector2 position;
@@ -55,10 +56,13 @@ int main(void) {
         float dt = GetFrameTime(); // time (sec) since last frame
         
         // movement
-        if (IsKeyDown(KEY_W)) state.leftPaddle.position.y -= state.leftPaddle.speed * dt * 20; // note: speed (pix/sec) * dt = pixel delta
-        if (IsKeyDown(KEY_S)) state.leftPaddle.position.y += state.leftPaddle.speed * dt * 20;
-
-
+        // note: speed (pix/sec) * dt = pixel delta
+        if (IsKeyDown(KEY_W)) state.leftPaddle.position.y -= state.leftPaddle.speed * dt * 75;
+        if (IsKeyDown(KEY_S)) state.leftPaddle.position.y += state.leftPaddle.speed * dt * 75;
+        
+        // clamp paddle
+        float halfH = state.leftPaddle.height * 0.5f;
+        state.leftPaddle.position.y = fminf(fmaxf(state.leftPaddle.position.y, 0 + halfH), 600.0f - halfH);
 
 
 
