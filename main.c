@@ -68,12 +68,24 @@ int main(void) {
         state.ball.position.x += state.ball.velocity.x * dt;
         state.ball.position.y += state.ball.velocity.y * dt;
 
-        // window bounce
+        // top/bottom window bounce
         float scaleFactor = 1.2f;
-        if (state.ball.position.x > 800) state.ball.velocity.x *= -1 * scaleFactor;
         if (state.ball.position.y > 600) state.ball.velocity.y *= -1 * scaleFactor;
-        if (state.ball.position.x < 0) state.ball.velocity.x *= -1 * scaleFactor;
         if (state.ball.position.y < 0) state.ball.velocity.y *= -1 * scaleFactor;
+
+        // paddle bounce
+
+        // goal: score update, ball position & velocity reset
+        if (state.ball.position.x < 0) {
+            state.score.player1Score += 1;
+            state.ball.position = (Vector2){ 800/2, 600/2 };
+            state.ball.velocity = (Vector2){ 200.0f, 150.0f };
+        }
+        if (state.ball.position.x > 800) {
+            state.score.player2Score += 1;
+            state.ball.position = (Vector2){ 800/2, 600/2 };
+            state.ball.velocity = (Vector2){ 200.0f, 150.0f };
+        }
 
         BeginDrawing();
             ClearBackground(GRAY);
