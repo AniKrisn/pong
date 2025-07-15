@@ -28,15 +28,49 @@ typedef struct {
     Score score;
 } GameState;
 
+float randomValueInRange(float min, float max) {
+    return min + ((float)rand() / RAND_MAX) * (max - min);
+}
+
+Vector2 randomVector2(float minX, float maxX, float minY, float maxY) {
+    Vector2 pos;
+    pos.x = minX + ((float)rand() / RAND_MAX) * (maxX - minX);
+    pos.y = minY + ((float)rand() / RAND_MAX) * (maxY - minY);
+    return pos;
+}
+
+Vector2 randomStartingVelocity(void) {
+    float speed = 300.0f;
+    float theta_max = M_PI / 6.0f; // 30 degrees
+    float angle;
+    if (rand() % 2 == 0) {
+        angle = randomValueInRange(-theta_max, theta_max);
+    } else {
+        angle = randomValueInRange(M_PI - theta_max, M_PI + theta_max);
+    }
+    Vector2 val;
+    val.x = speed * cosf(angle);
+    val.y = speed * sinf(angle);
+    return val;
+}
+
+void reset(GameState *state) {
+    state->ball.position = (Vector2){ 800/2, 600/2 };
+    state->ball.velocity = randomStartingVelocity();
+}
+
 int main(void) {
     // window setup
     InitWindow(800, 600, "first: minimal pong");
     SetTargetFPS(60);
 
+    // init random seed
+    srand(time(NULL));
+
     // declare game state
     GameState state = {
         .ball.position = (Vector2){ 800/2, 600/2 },
-        .ball.velocity = (Vector2){ 200.0f, 150.0f }, // speed, direction 
+        .ball.velocity = (Vector2){ -200.0f, 300.0f },
         .ball.radius = 5,
 
         .leftPaddle.position = (Vector2){ 5, 600/2 },
@@ -78,13 +112,12 @@ int main(void) {
         // goal: score update, ball position & velocity reset
         if (state.ball.position.x < 0) {
             state.score.player1Score += 1;
-            state.ball.position = (Vector2){ 800/2, 600/2 };
-            state.ball.velocity = (Vector2){ 200.0f, 150.0f };
+            reset(&state);
         }
+
         if (state.ball.position.x > 800) {
             state.score.player2Score += 1;
-            state.ball.position = (Vector2){ 800/2, 600/2 };
-            state.ball.velocity = (Vector2){ 200.0f, 150.0f };
+            reset(&state);
         }
 
         BeginDrawing();
