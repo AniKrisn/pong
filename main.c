@@ -107,12 +107,6 @@ int main(void) {
         float halfH = state.leftPaddle.height * 0.5f;
         state.leftPaddle.position.y = fminf(fmaxf(state.leftPaddle.position.y, 0 + halfH), 600.0f - halfH);
 
-        // paddle bounce
-        float paddleEnd = state.leftPaddle.position.y + state.leftPaddle.height;
-        if (state.ball.position.x == state.leftPaddle.position.x && (state.ball.position.y >= state.leftPaddle.position.y && state.ball.position.y <= paddleEnd)) {
-            state.ball.velocity.x *= -1;
-        }
-
         // pc control
         if (state.ball.position.y > state.rightPaddle.position.y) {
             state.rightPaddle.position.y += state.rightPaddle.speed * dt * 21.0f;
@@ -120,7 +114,7 @@ int main(void) {
         if (state.ball.position.y < state.rightPaddle.position.y) {
             state.rightPaddle.position.y -= state.rightPaddle.speed * dt * 21.0f;
         }
-        state.rightPaddle.position.y = fminf(fmaxf(state.leftPaddle.position.y, 0 + halfH), 600.0f - halfH);
+        state.rightPaddle.position.y = fminf(fmaxf(state.rightPaddle.position.y, 0 + halfH), 600.0f - halfH);
 
         
         // ball movement
@@ -138,12 +132,12 @@ int main(void) {
 
         // goal: score update, ball position & velocity reset
         if (state.ball.position.x < 0) {
-            state.score.player1Score += 1;
+            state.score.player2Score += 1;
             reset(&state);
         }
 
         if (state.ball.position.x > 800) {
-            state.score.player2Score += 1;
+            state.score.player1Score += 1;
             reset(&state);
         }
 
