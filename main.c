@@ -64,7 +64,7 @@ bool checkPaddleCollision(Ball ball, Paddle paddle) {
 }
 
 void reset(GameState *state) {
-    state->serveTimer = 0.25f;
+    state->serveTimer = 0.35f;
     state->ball.position = (Vector2){ 800/2, 600/2 };
     state->ball.velocity = randomStartingVelocity();
 }
@@ -79,7 +79,7 @@ int main(void) {
 
     // declare game state
     GameState state = {
-        .ball.position = (Vector2){ 800/2, 600/2 },
+        .ball.position = (Vector2){ 800/2 + 9.0f, 600/2 + 2.0f },
         .ball.velocity = (Vector2){ -200.0f, 300.0f },
         .ball.radius = 5,
 
@@ -94,7 +94,7 @@ int main(void) {
         .rightPaddle.speed = 300,
 
         .score = { 0, 0 },
-        .serveTimer = 0.25f
+        .serveTimer = 0.35f
     };
 
     while(!WindowShouldClose()) {
@@ -149,7 +149,7 @@ int main(void) {
         BeginDrawing();
             ClearBackground(GRAY);
 
-            DrawCircleV(state.ball.position, state.ball.radius, GREEN); 
+            DrawCircleV(state.ball.position, state.ball.radius, ORANGE); 
 
             DrawRectangleV(
                 (Vector2){
@@ -160,7 +160,7 @@ int main(void) {
                 (Vector2){
                     state.leftPaddle.width, state.leftPaddle.height
                 },
-                GREEN
+                ORANGE
             );
 
             DrawRectangleV(
@@ -172,12 +172,15 @@ int main(void) {
                 (Vector2){
                     state.leftPaddle.width, state.leftPaddle.height
                 },
-                GREEN
+                ORANGE
             );
 
 
-            DrawText(TextFormat("%i", state.score.player1Score), 350, 20, 20, GREEN);
-            DrawText(TextFormat("%i", state.score.player2Score), 450, 20, 20, GREEN);
+            DrawText(TextFormat("%i", state.score.player1Score), 350, 20, 30, YELLOW);
+            DrawText(TextFormat("%i", state.score.player2Score), 450, 20, 30, YELLOW);
+            if (state.serveTimer > 0.35) DrawText(TextFormat("..."), 390, 190, 75, YELLOW);
+            if (state.serveTimer > 0.25) DrawText(TextFormat(".."), 390, 190, 75, YELLOW);
+            if (state.serveTimer > 0.15) DrawText(TextFormat("."), 390, 190, 75, YELLOW);
 
         EndDrawing();
 
