@@ -89,7 +89,7 @@ int main(void) {
         .rightPaddle.position = (Vector2){ 795, 600/2 },
         .rightPaddle.width = 10,
         .rightPaddle.height = 75,
-        .rightPaddle.speed = 10,
+        .rightPaddle.speed = 300,
 
         .score = { 0, 0 }
     };
@@ -109,10 +109,10 @@ int main(void) {
 
         // pc control
         if (state.ball.position.y > state.rightPaddle.position.y) {
-            state.rightPaddle.position.y += state.rightPaddle.speed * dt * 21.0f;
+            state.rightPaddle.position.y += state.rightPaddle.speed * dt;
         }
         if (state.ball.position.y < state.rightPaddle.position.y) {
-            state.rightPaddle.position.y -= state.rightPaddle.speed * dt * 21.0f;
+            state.rightPaddle.position.y -= state.rightPaddle.speed * dt;
         }
         state.rightPaddle.position.y = fminf(fmaxf(state.rightPaddle.position.y, 0 + halfH), 600.0f - halfH);
 
