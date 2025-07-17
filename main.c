@@ -26,6 +26,7 @@ typedef struct {
     Paddle leftPaddle;
     Paddle rightPaddle;
     Score score;
+    float serveTimer;
 } GameState;
 
 float randomValueInRange(float min, float max) {
@@ -63,6 +64,7 @@ bool checkPaddleCollision(Ball ball, Paddle paddle) {
 }
 
 void reset(GameState *state) {
+    state->serveTimer = 0.25f;
     state->ball.position = (Vector2){ 800/2, 600/2 };
     state->ball.velocity = randomStartingVelocity();
 }
@@ -91,17 +93,18 @@ int main(void) {
         .rightPaddle.height = 75,
         .rightPaddle.speed = 300,
 
-        .score = { 0, 0 }
+        .score = { 0, 0 },
+        .serveTimer = 0.25f
     };
 
     while(!WindowShouldClose()) {
         float dt = GetFrameTime(); // time (sec) since last frame
+        if (state.serveTimer > 0) state.serveTimer = state.serveTimer - dt;
         
         // movement
         // note: speed (pix/sec) * dt = pixel delta
         if (IsKeyDown(KEY_W)) state.leftPaddle.position.y -= state.leftPaddle.speed * dt * 75.0f;
         if (IsKeyDown(KEY_S)) state.leftPaddle.position.y += state.leftPaddle.speed * dt * 75.0f;
-
         
         // clamp paddle
         float halfH = state.leftPaddle.height * 0.5f;
@@ -118,8 +121,10 @@ int main(void) {
 
         
         // ball movement
-        state.ball.position.x += state.ball.velocity.x * dt;
-        state.ball.position.y += state.ball.velocity.y * dt;
+        if (state.serveTimer <= 0) {
+            state.ball.position.x += state.ball.velocity.x * dt;
+            state.ball.position.y += state.ball.velocity.y * dt;
+        }
 
         // top/bottom window bounce
         float scaleFactor = 1.2f;
